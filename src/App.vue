@@ -1,73 +1,87 @@
 <template>
-  <div class="container">
-    <h1>JSON 美化工具 ✨</h1>
-    <div class="editor">
-      <textarea
-        v-model="inputJson"
-        placeholder="貼上你的 JSON 字串到這裡～"
-      ></textarea>
-      <textarea
-        :value="formattedJson"
-        readonly
-        placeholder="這裡會顯示整理好的結果喔！"
-      ></textarea>
-    </div>
-    <button @click="formatJson">整理 JSON</button>
+  <div class="app">
+    <h1><strong>JSON</strong> 排版轉換工具</h1>
+
+    <textarea v-model="rawJson" placeholder="輸入 JSON"></textarea>
+
+    <button @click="convertJson">轉換</button>
+
+    <h2>轉換結果</h2>
+    <p v-if="error" class="error">{{ error }}</p>
+
+    <VueJsonPretty :data="formattedJson" v-if="formattedJson" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import VueJsonPretty from 'vue-json-pretty'
+import 'vue-json-pretty/lib/styles.css' // 一定要引入樣式喔！
 
-const inputJson = ref('');
-const formattedJson = ref('');
+const rawJson = ref('')
+const formattedJson = ref(null)
+const error = ref('')
 
-function formatJson() {
+function convertJson() {
+  error.value = ''
   try {
-    const parsed = JSON.parse(inputJson.value);
-    formattedJson.value = JSON.stringify(parsed, null, 2); // 美化，2個空白縮排
+    formattedJson.value = JSON.parse(rawJson.value)
   } catch (e) {
-    formattedJson.value = '❌ 無效的 JSON！請重新檢查喔～';
+    formattedJson.value = null
+    error.value = '無效的 JSON 格式！'
   }
 }
 </script>
 
 <style scoped>
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-h1 {
+.app {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 20px;
 }
-.editor {
-  display: flex;
-  gap: 20px;
-}
+
 textarea {
   width: 100%;
-  height: 300px;
-  padding: 10px;
+  height: 150px;
   font-family: monospace;
-  font-size: 14px;
-  border: 1px solid #ccc;
+  padding: 1rem;
   border-radius: 8px;
-  resize: none;
+  border: 1px solid #ccc;
+  resize: vertical;
+  margin: 1rem 0;
 }
+
 button {
-  display: block;
-  margin: 20px auto 0;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #42b883;
+  padding: 0.6rem 1.4rem;
+  background-color: #007acc;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
+
 button:hover {
-  background-color: #38a17c;
+  background-color: #005fa3;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #0d3a71;
+}
+
+h2 {
+  margin-top: 1.5rem;
+  color: #0d3a71;
+}
+
+.error {
+  color: red;
+  margin: 0.5rem 0;
+  font-weight: bold;
 }
 </style>
