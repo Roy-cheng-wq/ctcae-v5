@@ -16,7 +16,7 @@
 <script setup>
 import { ref } from 'vue'
 import VueJsonPretty from 'vue-json-pretty'
-import 'vue-json-pretty/lib/styles.css' // 一定要引入樣式喔！
+import 'vue-json-pretty/lib/styles.css'
 
 const rawJson = ref('')
 const formattedJson = ref(null)
@@ -35,28 +35,29 @@ function convertJson() {
 
 <style scoped>
 .app {
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 500px;
+  margin: 3rem auto;
   padding: 1.5rem;
   background-color: #f0f8ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 textarea {
   width: 100%;
-  height: 150px;
+  height: 100px; /* 更小一點 */
   font-family: monospace;
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   resize: vertical;
   margin: 1rem 0;
+  box-sizing: border-box;
 }
 
 button {
-  padding: 0.6rem 1.4rem;
+  padding: 0.5rem 1.2rem;
   background-color: #007acc;
   color: white;
   border: none;
@@ -72,6 +73,7 @@ button:hover {
 h1 {
   font-size: 1.5rem;
   color: #0d3a71;
+  margin-bottom: 1rem;
 }
 
 h2 {
