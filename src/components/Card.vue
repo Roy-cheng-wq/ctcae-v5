@@ -18,7 +18,6 @@ const props = defineProps({
 const emit = defineEmits(['flip'])
 
 function handleClick() {
-  console.log('卡片翻面觸發', props.card)
   if (!props.card.isFlipped && !props.card.isMatched) {
     emit('flip', props.card)
   }
@@ -31,6 +30,7 @@ function handleClick() {
   height: 100px;
   perspective: 1000px;
   cursor: pointer;
+  margin: 2px;
 }
 .card-inner {
   width: 100%;
@@ -47,7 +47,7 @@ function handleClick() {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border: 1px solid #ccc;
+  border: 1px solid white;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -55,7 +55,6 @@ function handleClick() {
   font-size: 2rem;
 }
 .card-front {
-  background-color: #fff;
   background-image: repeating-linear-gradient(
     45deg,
     #d62828,
