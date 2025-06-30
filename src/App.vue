@@ -14,11 +14,7 @@
 
   <div
     class="board"
-    :style="{
-      gridTemplateColumns: `repeat(${columns}, 1fr)`,
-      gridTemplateRows: `repeat(${rows}, 1fr)`,
-      maxWidth: boardWidth + 'px'
-    }"
+    :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)` }"
   >
     <Card
       v-for="card in cards"
@@ -68,14 +64,6 @@ const layoutMap = {
 }
 
 const columns = computed(() => layoutMap[selectedCount.value]?.columns || 6)
-const rows = computed(() => layoutMap[selectedCount.value]?.rows || 5)
-
-const gap = 10 / 3
-const cardWidth = 80
-
-const boardWidth = computed(() => {
-  return columns.value * (cardWidth + gap) - gap
-})
 
 const startTime = ref(null)
 const elapsedTime = ref(0)
@@ -183,10 +171,10 @@ onBeforeUnmount(() => {
 
 <style>
 body {
+  background: #e6f2ff; /* 淡藍色背景 */
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
-  background: #f5f5f5;
 }
 
 h1 {
@@ -195,28 +183,29 @@ h1 {
 }
 
 .options {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.options label {
-  font-weight: bold;
-}
-
 .board {
   display: grid;
-  row-gap: 3.3333px;
-  column-gap: 3.3333px;
-  margin: 0 auto;
+  gap: 2px; /* 卡牌間距縮小 */
   justify-content: center;
+  padding: 20px;
+  margin: 0 auto;
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  border: 2px solid white
 }
 
 .stats {
-  max-width: 400px;
-  margin: 10px auto;
+  max-width: 500px;
+  margin: 20px auto;
   font-size: 1rem;
   display: flex;
   justify-content: space-around;
@@ -224,7 +213,7 @@ h1 {
 }
 
 .win-message {
-  max-width: 400px;
+  max-width: 500px;
   margin: 20px auto;
   font-size: 1.5rem;
   color: green;
