@@ -5,8 +5,8 @@
     <label>
       選擇遊戲模式：
       <select v-model.number="selectedCount" @change="startGame">
-        <option :value="30">30 張 (6x5)</option>
-        <option :value="42">42 張 (7x6)</option>
+        <option :value="12">12 張 (4x3)</option>
+        <option :value="16">16 張 (4x4)</option>
       </select>
     </label>
     <button @click="startGame">重新開始</button>
@@ -32,11 +32,12 @@
   </div>
 
   <div v-if="isWin" class="win-message">
-    <p>恭喜你過關了！🎉</p>
+    <p>🎉 恭喜你過關了！</p>
     <p>用時：{{ formattedTime }}</p>
     <p>翻對次數：{{ matchedCount }}</p>
     <p>翻錯次數：{{ wrongCount }}</p>
     <p>正確率：{{ accuracy }}%</p>
+    <button @click="startGame">再玩一次</button>
   </div>
 </template>
 
@@ -45,25 +46,21 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Card from './components/Card.vue'
 
 const allEmojiList = [
-  '🍎','🍌','🍓','🍇','🍊','🍉','🍍','🥝','🥥','🍒',
-  '🥭','🍑','🍐','🍋','🍈','🍏','🍅','🥑','🥕','🌽',
-  '🥔','🍄','🥜','🌰','🍞','🥐','🥖','🧀','🥩','🍗',
-  '🍖','🥓','🍔','🍟','🍕','🌭','🥪','🌮','🌯','🥗',
-  '🥙','🍣','🍤','🍚','🍜','🍲','🍥','🍢','🍡','🍧',
-  '🍨','🍩','🍪','🎂','🍰','🧁','🍫','🍬','🍭','🍮'
+  '🍎','🍌','🍓','🍇','🍊','🍉','🍍','🥝','🍒','🥭',
+  '🍑','🍐','🍋','🍏','🍅','🥕','🌽','🥔','🍄','🥜',
+  '🍞','🥐','🥖','🧀','🥩','🍗','🍖','🥓','🍔','🍕'
 ]
 
-const selectedCount = ref(30)
+const selectedCount = ref(12)
 const cards = ref([])
 const flippedCards = ref([])
 const isWin = ref(false)
 
 const layoutMap = {
-  30: { columns: 6, rows: 5 },
-  42: { columns: 7, rows: 6 }
+  12: { columns: 4, rows: 3 },
+  16: { columns: 4, rows: 4 }
 }
-
-const columns = computed(() => layoutMap[selectedCount.value]?.columns || 6)
+const columns = computed(() => layoutMap[selectedCount.value]?.columns || 4)
 
 const startTime = ref(null)
 const elapsedTime = ref(0)
@@ -110,7 +107,7 @@ function startGame() {
   startTimer()
 
   let count = selectedCount.value
-  if (count % 2 !== 0) count--
+  if (count % 2 !== 0) count-- // 確保成對
 
   const chosenEmojis = allEmojiList.slice(0, count / 2)
 
@@ -171,8 +168,8 @@ onBeforeUnmount(() => {
 
 <style>
 body {
-  background: #e6f2ff; /* 淡藍色背景 */
-  font-family: sans-serif;
+  background: #f0f4f8;
+  font-family: "Segoe UI", sans-serif;
   margin: 0;
   padding: 20px;
 }
@@ -188,19 +185,21 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .board {
   display: grid;
-  gap: 2px; /* 卡牌間距縮小 */
+  gap: 8px;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   margin: 0 auto;
-  background-color: #e0e0e0;
+  background-color: #d0d8e4;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: fit-content;
-  border: 2px solid white
+  border: 2px solid white;
 }
 
 .stats {
@@ -210,6 +209,8 @@ h1 {
   display: flex;
   justify-content: space-around;
   font-weight: bold;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .win-message {
@@ -219,5 +220,18 @@ h1 {
   color: green;
   text-align: center;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 18vw !important;
+    height: 24vw !important;
+  }
+
+  .stats, .options {
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+  }
 }
 </style>
