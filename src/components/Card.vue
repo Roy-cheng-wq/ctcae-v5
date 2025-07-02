@@ -32,6 +32,7 @@ function handleClick() {
   cursor: pointer;
   margin: 2px;
 }
+
 .card-inner {
   width: 100%;
   height: 100%;
@@ -39,34 +40,36 @@ function handleClick() {
   transform-style: preserve-3d;
   transition: transform 0.5s;
 }
+
 .card-inner.flipped {
   transform: rotateY(180deg);
 }
+
 .card-front, .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border: 1px solid white;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2.2rem;
+  font-weight: bold;
 }
+
 .card-front {
-  background-image: repeating-linear-gradient(
-    45deg,
-    #d62828,
-    #d62828 4px,
-    #ffffff 4px,
-    #ffffff 8px
-  );
-  background-size: cover;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
   color: transparent;
+  border: 2px solid #ecf0f1;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
 }
+
 .card-back {
   transform: rotateY(180deg);
   background-color: white;
+  color: #2c3e50;
+  border: 2px solid #34495e;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 </style>
