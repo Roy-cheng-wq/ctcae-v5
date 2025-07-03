@@ -12,16 +12,15 @@
     <button @click="startGame">重新開始</button>
   </div>
 
-  <div
-    class="board"
-    :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)` }"
-  >
-    <Card
-      v-for="card in cards"
-      :key="card.id"
-      :card="card"
-      @flip="onFlip"
-    />
+  <div class="board-wrapper">
+    <div class="board" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)` }">
+      <Card
+        v-for="card in cards"
+        :key="card.id"
+        :card="card"
+        @flip="onFlip"
+      />
+    </div>
   </div>
 
   <div class="stats">
@@ -44,21 +43,14 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Card from './components/Card.vue'
 
-const allEmojiList = [
-  '🍎','🍌','🍓','🍇','🍊','🍉','🍍','🥝','🍒','🍑',
-  '🥭','🍐','🍋','🍈','🍏','🍅','🥑','🥕','🌽','🥔',
-]
+const allEmojiList = ['🍎', '🍌', '🍓', '🍇', '🍊', '🍉', '🍍', '🥝', '🥥', '🍒', '🥭', '🍑', '🍐', '🍋', '🍈', '🍏']
 
 const selectedCount = ref(12)
 const cards = ref([])
 const flippedCards = ref([])
 const isWin = ref(false)
 
-const layoutMap = {
-  12: { columns: 4, rows: 3 },
-  16: { columns: 4, rows: 4 }
-}
-
+const layoutMap = { 12: { columns: 4 }, 16: { columns: 4 } }
 const columns = computed(() => layoutMap[selectedCount.value]?.columns || 4)
 
 const startTime = ref(null)
@@ -105,7 +97,7 @@ function startGame() {
   elapsedTime.value = 0
   startTimer()
 
-  let count = selectedCount.value
+  const count = selectedCount.value
   const chosenEmojis = allEmojiList.slice(0, count / 2)
 
   let id = 0
@@ -154,13 +146,8 @@ function checkWin() {
   }
 }
 
-onMounted(() => {
-  startGame()
-})
-
-onBeforeUnmount(() => {
-  stopTimer()
-})
+onMounted(() => startGame())
+onBeforeUnmount(() => stopTimer())
 </script>
 
 <style>
@@ -177,36 +164,35 @@ h1 {
 }
 
 .options {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+}
+
+.board-wrapper {
+  background-color:rgb(214, 214, 214); /* 深一點的藍色背景板 */
+  border-radius: 16px;
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .board {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
-  padding: 10px;
-  margin: 0 auto;
-  background-color: #d0d8e4;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid white;
-  max-width: 95vw;
-  max-height: 90vh;
 }
 
 .stats {
-  max-width: 600px;
+  max-width: 500px;
   margin: 20px auto;
   font-size: 1rem;
   display: flex;
   justify-content: space-around;
   font-weight: bold;
-  flex-wrap: wrap;
 }
 
 .win-message {
@@ -218,11 +204,12 @@ h1 {
   font-weight: bold;
 }
 
-@media (max-width: 600px) {
-  .options, .stats {
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.9rem;
+/* 保證手機和桌面都不會卡片過大 */
+.board > * {
+  width: min(20vw, 100px);
+  height: min(20vw, 100px);
+}
+</style>
   }
 }
 </style>
