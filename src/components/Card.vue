@@ -22,12 +22,15 @@ function handleClick() {
 
 <style scoped>
 .card {
-  width: clamp(60px, 20vw, 120px);
-  height: clamp(80px, 26vw, 160px);
+  width: 20vw;
+  max-width: 80px;
+  height: 25vw;
+  max-height: 100px;
   perspective: 1000px;
   cursor: pointer;
   margin: 2px;
 }
+
 .card-inner {
   width: 100%;
   height: 100%;
@@ -35,27 +38,31 @@ function handleClick() {
   transform-style: preserve-3d;
   transition: transform 0.5s;
 }
+
 .card-inner.flipped {
   transform: rotateY(180deg);
 }
+
 .card-front, .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border: 1px solid #aaa;
-  border-radius: 12px;
+  border: 1px solid white;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
+
 .card-front {
-  background: radial-gradient(circle, #d62828, #780000);
+  background: linear-gradient(45deg, #1e90ff, #63b3ed);
   color: transparent;
 }
+
 .card-back {
   transform: rotateY(180deg);
-  background-color: #ffffff;
+  background-color: white;
 }
 </style>
