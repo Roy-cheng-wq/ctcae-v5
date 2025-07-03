@@ -32,12 +32,11 @@
   </div>
 
   <div v-if="isWin" class="win-message">
-    <p>🎉 恭喜你過關了！</p>
+    <p>恭喜你過關了！🎉</p>
     <p>用時：{{ formattedTime }}</p>
     <p>翻對次數：{{ matchedCount }}</p>
     <p>翻錯次數：{{ wrongCount }}</p>
     <p>正確率：{{ accuracy }}%</p>
-    <button @click="startGame">再玩一次</button>
   </div>
 </template>
 
@@ -46,9 +45,8 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Card from './components/Card.vue'
 
 const allEmojiList = [
-  '🍎','🍌','🍓','🍇','🍊','🍉','🍍','🥝','🍒','🥭',
-  '🍑','🍐','🍋','🍏','🍅','🥕','🌽','🥔','🍄','🥜',
-  '🍞','🥐','🥖','🧀','🥩','🍗','🍖','🥓','🍔','🍕'
+  '🍎','🍌','🍓','🍇','🍊','🍉','🍍','🥝','🍒','🍑',
+  '🥭','🍐','🍋','🍈','🍏','🍅','🥑','🥕','🌽','🥔',
 ]
 
 const selectedCount = ref(12)
@@ -60,6 +58,7 @@ const layoutMap = {
   12: { columns: 4, rows: 3 },
   16: { columns: 4, rows: 4 }
 }
+
 const columns = computed(() => layoutMap[selectedCount.value]?.columns || 4)
 
 const startTime = ref(null)
@@ -107,8 +106,6 @@ function startGame() {
   startTimer()
 
   let count = selectedCount.value
-  if (count % 2 !== 0) count-- // 確保成對
-
   const chosenEmojis = allEmojiList.slice(0, count / 2)
 
   let id = 0
@@ -168,8 +165,8 @@ onBeforeUnmount(() => {
 
 <style>
 body {
-  background: #f0f4f8;
-  font-family: "Segoe UI", sans-serif;
+  background: #e6f2ff;
+  font-family: sans-serif;
   margin: 0;
   padding: 20px;
 }
@@ -180,13 +177,12 @@ h1 {
 }
 
 .options {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
 }
 
 .board {
@@ -198,19 +194,19 @@ h1 {
   background-color: #d0d8e4;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: fit-content;
   border: 2px solid white;
+  max-width: 95vw;
+  max-height: 90vh;
 }
 
 .stats {
-  max-width: 500px;
+  max-width: 600px;
   margin: 20px auto;
   font-size: 1rem;
   display: flex;
   justify-content: space-around;
   font-weight: bold;
   flex-wrap: wrap;
-  gap: 10px;
 }
 
 .win-message {
@@ -222,13 +218,8 @@ h1 {
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
-  .card {
-    width: 18vw !important;
-    height: 24vw !important;
-  }
-
-  .stats, .options {
+@media (max-width: 600px) {
+  .options, .stats {
     flex-direction: column;
     align-items: center;
     font-size: 0.9rem;
