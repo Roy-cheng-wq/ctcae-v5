@@ -210,6 +210,3 @@ h1 {
   height: min(20vw, 100px);
 }
 </style>
-  }
-}
-</style>
