@@ -13,7 +13,10 @@
   </div>
 
   <div class="board-wrapper">
-    <div class="board" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)` }">
+    <div
+      class="board"
+      :style="{ gridTemplateColumns: `repeat(${columns}, minmax(50px, 1fr))` }"
+    >
       <Card
         v-for="card in cards"
         :key="card.id"
@@ -43,15 +46,22 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Card from './components/Card.vue'
 
-const allEmojiList = ['🍎', '🍌', '🍓', '🍇', '🍊', '🍉', '🍍', '🥝', '🥥', '🍒', '🥭', '🍑', '🍐', '🍋', '🍈', '🍏']
+const allEmojiList = [
+  '🍎', '🍌', '🍓', '🍇', '🍊', '🍉', '🍍', '🥝',
+  '🥥', '🍒', '🥭', '🍑', '🍐', '🍋', '🍈', '🍏'
+]
 
 const selectedCount = ref(12)
 const cards = ref([])
 const flippedCards = ref([])
 const isWin = ref(false)
 
-const layoutMap = { 12: { columns: 4 }, 16: { columns: 4 } }
-const columns = computed(() => layoutMap[selectedCount.value]?.columns || 4)
+const layoutMap = {
+  12: 4,
+  16: 4
+}
+
+const columns = computed(() => layoutMap[selectedCount.value] || 4)
 
 const startTime = ref(null)
 const elapsedTime = ref(0)
@@ -146,8 +156,13 @@ function checkWin() {
   }
 }
 
-onMounted(() => startGame())
-onBeforeUnmount(() => stopTimer())
+onMounted(() => {
+  startGame()
+})
+
+onBeforeUnmount(() => {
+  stopTimer()
+})
 </script>
 
 <style>
@@ -172,17 +187,18 @@ h1 {
 }
 
 .board-wrapper {
-  background-color:rgb(214, 214, 214); /* 深一點的藍色背景板 */
+  background-color: #cce0ff;
+  border: 4px solid #333;
   border-radius: 16px;
-  padding: 16px;
-  max-width: 1000px;
+  padding: 20px;
+  max-width: 95vw;
   margin: 0 auto;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .board {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
 }
 
@@ -203,10 +219,5 @@ h1 {
   text-align: center;
   font-weight: bold;
 }
-
-/* 保證手機和桌面都不會卡片過大 */
-.board > * {
-  width: min(20vw, 100px);
-  height: min(20vw, 100px);
-}
 </style>
+
