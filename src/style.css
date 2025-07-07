@@ -193,7 +193,7 @@ button:focus-visible {
 /* 手機響應式樣式 */
 @media (max-width: 600px) {
   .card {
-    max-width: 50px; /* 原本 60px，手機上縮小一點 */
+    max-width: 40px; /* 原本 60px，手機上縮小一點 */
     font-size: 1.2rem;
   }
 
